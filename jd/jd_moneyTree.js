@@ -1,6 +1,6 @@
 /*
 京东摇钱树 ：https://raw.githubusercontent.com/lxk0301/scripts/master/jd_moneyTree.js
-更新时间:2020-09-22
+更新时间:2020-09-30
 京东摇钱树支持京东双账号
 注：如果使用Node.js, 需自行安装'crypto-js,got,http-server,tough-cookie'模块. 例: npm install crypto-js http-server tough-cookie got --save
 */
@@ -31,7 +31,7 @@ if ($.isNode()) {
 }
 
 const Notice = $.getdata('jdMoneyTreeNoticeTimes') * 1 || 2;//设置运行多少次才通知。默认运行两次脚本通知，其他设置请在BoxJs进行设置
-let jdNotify = $.getdata('jdMoneyTreeNotify');
+let jdNotify = true;//是否开启静默运行，默认true开启
 const JD_API_HOST = 'https://ms.jr.jd.com/gw/generic/uc/h5/m';
 let userInfo = null, taskInfo = [], message = '', subTitle = '', fruitTotal = 0, UserName = '';
 !(async () => {
@@ -68,6 +68,7 @@ async function jd_moneyTree() {
   await msgControl();
 
   console.log(`运行脚本次数和设置的次数是否相等::${($.getdata($.treeMsgTime) * 1) === Notice}`);
+  jdNotify = $.getdata('jdMoneyTreeNotify') ? $.getdata('jdMoneyTreeNotify') : jdNotify;
   console.log(`box订阅静默运行-是否打开::${jdNotify || jdNotify === 'true'}`);
   console.log(`是否弹窗通知::${(($.getdata($.treeMsgTime) * 1) === Notice) && (!jdNotify || jdNotify === 'false')}`);
   $.log(`\n${message}\n`);

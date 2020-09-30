@@ -1,6 +1,6 @@
 /*
 种豆得豆 搬的https://github.com/uniqueque/QuantumultX/blob/4c1572d93d4d4f883f483f907120a75d925a693e/Script/jd_plantBean.js
-更新时间:2020-09-13
+更新时间:2020-09-30
 已支持IOS京东双账号,云端N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 会自动关注任务中的店铺跟商品
@@ -19,7 +19,7 @@ cron "1 7-21/2 * * *" script-path=https://raw.githubusercontent.com/lxk0301/scri
 const $ = new Env('京东种豆得豆');
 //Node.js用户请在jdCookie.js处填写京东ck;
 //ios等软件用户直接用NobyDa的jd cookie
-let jdNotify = $.getdata('jdPlantBeanNotify');
+let jdNotify = true;//是否开启静默运行。默认true开启
 let cookiesArr = [], cookie = '', jdPlantBeanShareArr = [], isBox = false, notify, newShareCodes, option, message,subTitle;
 //京东接口地址
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
@@ -391,6 +391,7 @@ async function doHelp() {
 }
 function showMsg() {
   $.log(`\n${message}\n`);
+  jdNotify = $.getdata('jdPlantBeanNotify') ? $.getdata('jdPlantBeanNotify') : jdNotify;
   if (!jdNotify || jdNotify === 'false') {
     $.msg($.name, subTitle, message);
   }

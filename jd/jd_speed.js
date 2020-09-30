@@ -1,6 +1,6 @@
 /*
 京东天天加速链接：https://raw.githubusercontent.com/lxk0301/scripts/master/jd_speed.js
-更新时间:2020-08-28
+更新时间:2020-09-30
 支持京东双账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 每天4京豆，再小的苍蝇也是肉
@@ -33,7 +33,7 @@ if ($.isNode()) {
   cookiesArr.push($.getdata('CookieJD'));
   cookiesArr.push($.getdata('CookieJD2'));
 }
-let jdNotify = $.getdata('jdSpeedNotify');
+let jdNotify = true;//是否开启静默运行。默认true开启
 let message = '', subTitle = '', UserName = '';
 const JD_API_HOST = 'https://api.m.jd.com/'
 
@@ -64,6 +64,7 @@ const JD_API_HOST = 'https://api.m.jd.com/'
 function showMsg() {
   if ($.isLogin) {
     $.log(`\n${message}\n`);
+    jdNotify = $.getdata('jdSpeedNotify') ? $.getdata('jdSpeedNotify') : jdNotify;
     if (!jdNotify || jdNotify === 'false') {
       $.msg($.name, subTitle, `【京东账号${$.index}】${UserName}\n` + message);
     }
