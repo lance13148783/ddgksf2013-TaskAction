@@ -21,7 +21,7 @@ jobs:
           node-version: '12.x'
       - name: Run
         run: |
-          cd V2ex-Auto-Sign
+          cd v2ex
           npm install
           node v2ex.js
         env:
