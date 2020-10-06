@@ -1,0 +1,36 @@
+#参照ruicky/jd_sign_bot
+
+name: Github v2ex-auto-sign
+ 
+on:
+  #push:
+  #  branches:
+  #    - master
+  schedule:
+    - cron: '0 14 * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Run
+        run: |
+          cd V2ex-Auto-Sign
+          npm install
+          node v2ex.js
+        env:
+          V2EXCK: ${{ secrets.V2EXCK }}
+          QMSGAPI: ${{ secrets.QMSGAPI }}
+      - name: Upload to this repo
+        run: |
+          git config --global user.name "wenmoux"
+          git config --global user.email "wenmoux@gmail.com.com" 
+          git add . 
+          git commit -m 'upload 签到结果'  
+          git push -u origin master
