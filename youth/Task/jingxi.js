@@ -1,5 +1,5 @@
 /*
-更新时间:09-16 09:05
+更新时间:10-09 20:05
 本脚本为京东旗下京喜app签到脚本
 本脚本使用京东公共Cooike，支持双账号，获取方法请查看NobyDa大佬脚本说明
 
@@ -25,7 +25,6 @@ if ($.isNode()) {
   cookiesArr.push($.getdata('CookieJD'));
   cookiesArr.push($.getdata('CookieJD2'))
 }
-
 !(async () => {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
@@ -34,14 +33,17 @@ if ($.isNode()) {
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
-      UserName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
+      UserName = decodeURIComponent(cookie.match(/pt_pin=(\w+)/) && cookie.match(/pt_pin=(\w+)/)[1])
       $.index = i + 1;
       console.log(`\n开始【京东账号${$.index}】${UserName}\n`);
       await getsign();
       await Tasklist();
       await doublesign();
       await coininfo();
-      await showmsg()
+      await showmsg();
+    if ($.isNode()){
+       await notify.sendNotify($.name + " 账号昵称:" + nickname, $.sub+`\n`+$.desc)
+         }
     }
   }
 })()
@@ -59,18 +61,19 @@ function getsign() {
       },
     }
     $.get(signurl, (err, resp, data) => {
-      if (data.match(/"retCode":\d+/) == '"retCode":0') {
-        nickname = data.split(':')[6].split(',')[0].replace(/[\"]+/g, "")
-        totalpoints = data.match(/[0-9]+/g)[3]
-        signdays = "已签" + data.match(/[0-9]+/g)[6] + "天"
-        if (data.match(/[0-9]+/g)[9] == 0) {
+      signres = JSON.parse(data)
+      if (signres.retCode == '0') {
+        nickname = signres.data.nickname
+        totalpoints = signres.data.pgAmountTotal
+        signdays = "已签" + signres.data.signDays + "天"
+        if (signres.data.signStatus == 0) {
           signresult = "签到成功"
           signdays += " 今日获得" + data.match(/[0-9]+/g)[4] + "积分"
 
-        } else if (data.match(/[0-9]+/g)[9] == 1) {
+        } else if (signres.data.signStatus == 1) {
           signresult = "签到重复"
         }
-      } else if (data.match(/"retCode":\d+/) == '"retCode":30003') {
+      } else if (signres.retCode == '30003') {
         $.msg($.name, '【提示】京东cookie已失效,请重新登录获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
       }
       resolve()

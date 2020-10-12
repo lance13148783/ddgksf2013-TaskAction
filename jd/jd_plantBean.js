@@ -1,6 +1,6 @@
 /*
 种豆得豆 搬的https://github.com/uniqueque/QuantumultX/blob/4c1572d93d4d4f883f483f907120a75d925a693e/Script/jd_plantBean.js
-更新时间:2020-10-06
+更新时间:2020-10-12
 已支持IOS京东双账号,云端N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 会自动关注任务中的店铺跟商品
@@ -361,6 +361,8 @@ function showTaskProcess() {
 //助力好友
 async function doHelp() {
   for (let plantUuid of newShareCodes) {
+    console.log(`开始助力京东账号${$.index} - ${UserName}的好友: ${plantUuid}`);
+    if (!plantUuid) continue;
     if (plantUuid === $.myPlantUuid) {
       console.log(`\n跳过自己的plantUuid\n`)
       continue
@@ -377,7 +379,7 @@ async function doHelp() {
           console.log('您今日助力的机会已耗尽，已不能再帮助好友助力了\n');
           break;
         } else if ($.helpResult.data.helpShareRes.state === '3') {
-          console.log('该好友今日已满20人助力,明天再来为Ta助力吧\n')
+          console.log('该好友今日已满9人助力/20瓶营养液,明天再来为Ta助力吧\n')
         } else if ($.helpResult.data.helpShareRes.state === '4') {
           console.log(`${$.helpResult.data.helpShareRes.promptText}\n`)
         } else {
