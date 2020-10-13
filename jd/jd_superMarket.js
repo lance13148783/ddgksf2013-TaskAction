@@ -1,6 +1,6 @@
 /*
 京小超
-更新时间：2020-10-11
+更新时间：2020-10-12
 现有功能：每日签到，日常任务（分享游戏，逛会场，关注店铺，卖货能手），收取金币，收取蓝币,商圈活动
 支持京东双账号
 京小超兑换奖品请使用此脚本 https://raw.githubusercontent.com/lxk0301/scripts/master/jd_blueCoin.js
@@ -13,7 +13,7 @@
 [Script]
 cron "11 1-23/5 * * *" script-path=https://raw.githubusercontent.com/lxk0301/scripts/master/jd_superMarket.js,tag=京小超
 // Surge
-京小超 = type=cron,cronexp="11 1-23/5 * * *",wake-system=1,timeout=120,script-path=https://raw.githubusercontent.com/lxk0301/scripts/master/jd_superMarket.js
+京小超 = type=cron,cronexp="11 1-23/5 * * *",wake-system=1,timeout=320,script-path=https://raw.githubusercontent.com/lxk0301/scripts/master/jd_superMarket.js
  */
 const $ = new Env('京小超');
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -525,10 +525,12 @@ async function upgrade() {
     for (let item of shelfCategorys) {
       console.log(`${item['shelfCategory'] === 1 ? '普通货架' : item['shelfCategory'] === 2 ? '冰柜货架' : item['shelfCategory'] === 3 ? '水果货架':'未知货架'}    ${item["name"]}     ${item["unlockStatus"] === 0 ? '未解锁' : '已解锁'}      ${item["upgradeStatus"] === 1 ? '可升级' : item["upgradeStatus"] === 0 ? '不可升级':item["upgradeStatus"]}`)
       if (item['unlockStatus'] === 1) {
+        console.log(`\n开始解锁商品：${item['name']}`)
         await smtg_unlockProduct(item['productId']);
         break;
       }
       if (item['upgradeStatus'] === 1) {
+        console.log(`\n开始升级商品：${item['name']}`)
         await smtg_upgradeProduct(item['productId']);
         break;
       }

@@ -1,18 +1,14 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-# push:
-#   branches: 
-#   - master 
 
-name: txnews
+name: youth_read3
 
 on:
   workflow_dispatch:
   schedule:
-     - cron: '*/7 1-15 * * *'
+     - cron: '*/29 13-15 * * *'
   watch:
-     types: started
-    
+    types: started
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,19 +22,16 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: '运行 【腾讯新闻】'
+      - name: '运行 【中青看点自动阅读】'
         run: |
-          node Task/txnews.js
+          node ./youth/Task/Youth_Read.js
         env:
-          TXNEWS_SIGN: ${{ secrets.TXNEWS_SIGN }}
-          TXNEWS_COOKIE: ${{ secrets.TXNEWS_COOKIE }}
-          TXNEWS_VIDEO: ${{ secrets.TXNEWS_VIDEO }}
+          YOUTH_READ: ${{ secrets.YOUTH_READ3 }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
-          TXNEWS_NOTIFY_CONTROL: ${{ secrets.TXNEWS_NOTIFY_CONTROL }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_USER_ID: ${{ secrets.TG_USER_ID }}
           BARK_SOUND: ${{ secrets.BARK_SOUND }}
-          DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN }}
-          DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET }}
 
+
+    
