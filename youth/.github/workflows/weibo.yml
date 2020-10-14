@@ -1,18 +1,14 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: jd_blueCoin
+name: weibo_signin
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 16 * * *'
+     - cron: '5 18 * * *'
   watch:
     types: started
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
@@ -24,13 +20,12 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: '运行 【京小超兑换奖品】'
+      - name: '运行 【新浪微博】'
         run: |
-          node jd_blueCoin.js
+          node Task/weibo.js
         env:
-          JD_COOKIE: ${{ secrets.JD_COOKIE }}
-          JD_DEBUG: ${{ secrets.JD_DEBUG }}
-          MARKET_COIN_TO_BEANS: ${{ secrets.MARKET_COIN_TO_BEANS }}
+          WB_TOKEN: ${{ secrets.WB_TOKEN }}
+          WB_PAY: ${{ secrets.WB_PAY }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}

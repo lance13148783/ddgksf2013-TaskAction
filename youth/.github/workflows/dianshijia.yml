@@ -1,18 +1,14 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: jd_blueCoin
+name: dianshijia
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 16 * * *'
+     - cron: '*/29 4,12,23 * * *'
   watch:
     types: started
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
@@ -24,13 +20,14 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: '运行 【京小超兑换奖品】'
+      - name: '运行 【电视家】'
         run: |
-          node jd_blueCoin.js
+          node Task/dianshijia.js
         env:
-          JD_COOKIE: ${{ secrets.JD_COOKIE }}
-          JD_DEBUG: ${{ secrets.JD_DEBUG }}
-          MARKET_COIN_TO_BEANS: ${{ secrets.MARKET_COIN_TO_BEANS }}
+          DSJ_SIGN: ${{ secrets.DSJ_SIGN }}
+          DSJ_HEADERS: ${{ secrets.DSJ_HEADERS }}
+          DSJ_DRAWAL: ${{ secrets.DSJ_DRAWAL }}
+          DSJ_NOTIFY_CONTROL: ${{ secrets.DSJ_NOTIFY_CONTROL }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
