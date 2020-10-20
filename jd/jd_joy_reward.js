@@ -1,6 +1,6 @@
 /*
 宠汪汪积分兑换奖品脚本, 目前脚本只兑换京豆，兑换京豆成功，才会发出通知提示，其他情况不通知。
-更新时间; 2020-10-13
+更新时间; 2020-10-14
 兑换规则：一个账号一天只能兑换一次京豆。
 1-20级：340积分兑换20京豆, 21-25级：320积分换20京豆
 再往上的等级兑换规则目前不知，欢迎大家提供信息
@@ -23,7 +23,7 @@ const joyRewardName = $.getdata('joyRewardName') || '1';//是否兑换京豆，�
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
-let jdNotify = false;//是否开启静默运行，默认false关闭
+let jdNotify = false;//是否开启静默运行，默认false关闭(即:奖品兑换成功后会发出通知提示)
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
@@ -101,9 +101,9 @@ async function joyReward() {
                 ctrTemp = `${jdNotify}` === 'false';
               }
               if (ctrTemp) {
-                $.msg($.name, `兑换${giftValue}京豆成功`, `【京东账号${$.index}】${UserName}\n【宠物等级】${data.level}\n【积分详情】消耗积分 ${salePrice}, 剩余积分 ${data.coin - salePrice}\n`);
+                $.msg($.name, `兑换${giftValue}京豆成功`, `【京东账号${$.index}】${UserName}\n【宠物等级】${data.level}\n【积分详情】消耗积分 ${salePrice}, 剩余积分 ${data.coin - salePrice}`);
                 if ($.isNode()) {
-                  await notify.sendNotify(`${$.name}`, `【京东账号${$.index}】 ${UserName}\n【兑换${giftValue}京豆】成功\n【宠物等级】${data.level}\n【消耗积分】${salePrice}分\n【当前剩余】${data.coin - salePrice}积分`);
+                  await notify.sendNotify(`${$.name}`, `【京东账号${$.index}】 ${UserName}\n【兑换${giftValue}京豆】成功\n【宠物等级】${data.level}\n【积分详情】消耗积分 ${salePrice}, 剩余积分 ${data.coin - salePrice}`);
                 }
               }
               // if ($.isNode()) {
@@ -133,7 +133,7 @@ async function joyReward() {
     } else if ($.index === 2){
       $.setdata('', 'CookieJD2');//cookie失效，故清空cookie。
     }
-    if ($.isNode() && notify.SCKEY) {
+    if ($.isNode()) {
       await notify.sendNotify(`${$.name}cookie已失效`, `京东账号${$.index} ${UserName}\n\n请重新登录获取cookie`);
     }
     // $.done();

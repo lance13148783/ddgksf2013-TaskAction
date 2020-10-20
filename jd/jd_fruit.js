@@ -1,6 +1,6 @@
 /*
 东东水果:脚本更新地址 https://raw.githubusercontent.com/lxk0301/scripts/master/jd_fruit.js
-更新时间:2020-10-12
+更新时间:2020-10-20
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -11,7 +11,7 @@
 [Script]
 cron "5 6-18/6 * * *" script-path=https://raw.githubusercontent.com/lxk0301/scripts/master/jd_fruit.js,tag=东东农场
 // Surge
-// 东东农场 = type=cron,cronexp="5 6-18/6 * * *",wake-system=1,timeout=120,script-path=https://raw.githubusercontent.com/lxk0301/scripts/master/jd_joy_steal.js
+// 东东农场 = type=cron,cronexp="5 6-18/6 * * *",wake-system=1,timeout=120,script-path=https://raw.githubusercontent.com/lxk0301/scripts/master/fruit.js
 互助码shareCode请先手动运行脚本查看打印可看到
 一天只能帮助4个人。多出的助力码无效
 注：如果使用Node.js, 需自行安装'crypto-js,got,http-server,tough-cookie'模块. 例: npm install crypto-js http-server tough-cookie got --save
@@ -31,8 +31,8 @@ let shareCodes = [ // 这个列表填入你要助力的好友的shareCode
 let message = '', subTitle = '', option = {}, UserName = '', isFruitFinished = false;
 const retainWater = 100;//保留水滴大于多少g,默认100g;
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
+let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活动时100g水换20豆,此时比浇水划算,推荐换豆),true表示换豆(不浇水),false表示不换豆(继续浇水),脚本默认是浇水
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const activeEndTime = '2020-10-09';
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -81,7 +81,7 @@ async function jdFruit() {
       //已下单购买, 但未开始种植新的水果
       option['open-url'] = "openApp.jdMobile://";
       $.msg($.name, `【提醒⏰】请重新种植水果`, `上轮水果${$.farmInfo.farmUserPro.name}已兑换成功\n请去京东APP或微信小程序选购并种植新的水果\n`, option);
-      if ($.isNode() && notify.SCKEY) {
+      if ($.isNode()) {
         await notify.sendNotify(`${$.name}请重新种植水果`, `京东账号${$.index} ${UserName}\n上轮水果${$.farmInfo.farmUserPro.name}已兑换成功\n\n请去京东APP或微信小程序选购并种植新的水果`);
       }
       return
@@ -237,7 +237,18 @@ async function predictionFruit() {
 }
 //浇水十次
 async function doTenWater() {
+  jdFruitBeanCard = $.getdata('jdFruitBeanCard') ? $.getdata('jdFruitBeanCard') : jdFruitBeanCard;
+  if ($.isNode() && process.env.jdFruitBeanCard) {
+    jdFruitBeanCard = process.env.jdFruitBeanCard;
+  }
+  await myCardInfoForFarm();
+
+  if (`${jdFruitBeanCard}` === 'true' && JSON.stringify($.myCardInfoRes).match(`限时翻倍`)) {
+    console.log(`您设置的是使用水滴换豆卡，跳过10次浇水任务`)
+    return
+  }
   if ($.farmTask.totalWaterTaskInit.totalWaterTaskTimes < $.farmTask.totalWaterTaskInit.totalWaterTaskLimit) {
+    console.log(`\n准备浇水十次`);
     let waterCount = 0;
     isFruitFinished = false;
     for (; waterCount < $.farmTask.totalWaterTaskInit.totalWaterTaskLimit - $.farmTask.totalWaterTaskInit.totalWaterTaskTimes; waterCount++) {
@@ -319,8 +330,8 @@ async function doTenWaterAgain() {
   let totalEnergy  = $.farmInfo.farmUserPro.totalEnergy;
   console.log(`剩余水滴${totalEnergy}g\n`);
   await myCardInfoForFarm();
-  const { fastCard, doubleCard, beanCard  } = $.myCardInfoRes;
-  console.log(`背包已有道具:\n快速浇水卡:${fastCard === -1 ? '未解锁': fastCard}\n水滴翻倍卡:${doubleCard === -1 ? '未解锁': doubleCard}\n水滴换京豆卡:${beanCard === -1 ? '未解锁' : beanCard }\n`)
+  const { fastCard, doubleCard, beanCard, signCard  } = $.myCardInfoRes;
+  console.log(`背包已有道具:\n快速浇水卡:${fastCard === -1 ? '未解锁': fastCard + '张'}\n水滴翻倍卡:${doubleCard === -1 ? '未解锁': doubleCard + '张'}\n水滴换京豆卡:${beanCard === -1 ? '未解锁' : beanCard + '张'}\n加签卡:${signCard === -1 ? '未解锁' : signCard + '张'}\n`)
   if (totalEnergy >= 100 && $.myCardInfoRes.doubleCard > 0) {
     //使用翻倍水滴卡
     for (let i = 0; i < new Array($.myCardInfoRes.doubleCard).fill('').length; i++) {
@@ -329,6 +340,24 @@ async function doTenWaterAgain() {
     }
     await initForFarm();
     totalEnergy = $.farmInfo.farmUserPro.totalEnergy;
+  }
+  jdFruitBeanCard = $.getdata('jdFruitBeanCard') ? $.getdata('jdFruitBeanCard') : jdFruitBeanCard;
+  if ($.isNode() && process.env.jdFruitBeanCard) {
+    jdFruitBeanCard = process.env.jdFruitBeanCard;
+  }
+  if (`${jdFruitBeanCard}` === 'true' && JSON.stringify($.myCardInfoRes).match('限时翻倍')) {
+    console.log(`\n您设置的是水滴换豆功能,现在为您换豆`);
+    if (totalEnergy >= 100 && $.myCardInfoRes.beanCard > 0) {
+      //使用水滴换豆卡
+      await userMyCardForFarm('beanCard');
+      console.log(`使用水滴换豆卡结果:${JSON.stringify($.userMyCardRes)}`);
+      if ($.userMyCardRes.code === '0') {
+        message += `【水滴换豆卡】获得${$.userMyCardRes.beanCount}个京豆\n`;
+      }
+    } else {
+      console.log(`您目前水滴:${totalEnergy}g,水滴换豆卡${$.myCardInfoRes.beanCard}张,暂不满足水滴换豆的条件`)
+    }
+    return
   }
   // if (Date.now() < new Date(activeEndTime).getTime()) {
   //   if (totalEnergy >= 100 && $.myCardInfoRes.beanCard > 0) {
@@ -787,6 +816,9 @@ async function doFriendsWater() {
             } else if ($.waterFriendForFarmRes.cardInfo.type === 'doubleCard') {
               console.log(`获取道具卡:${$.waterFriendForFarmRes.cardInfo.rule}`);
               cardInfoStr += `水滴翻倍卡,`;
+            } else if ($.waterFriendForFarmRes.cardInfo.type === 'signCard') {
+              console.log(`获取道具卡:${$.waterFriendForFarmRes.cardInfo.rule}`);
+              cardInfoStr += `加签卡,`;
             }
           }
         } else if ($.waterFriendForFarmRes.code === '11') {
@@ -918,7 +950,7 @@ async function waterFriendGotAwardForFarm() {
 // 查询背包道具卡API
 async function myCardInfoForFarm() {
   const functionId = arguments.callee.name.toString();
-  $.myCardInfoRes = await request(functionId, {"version": 4, "channel": 1});
+  $.myCardInfoRes = await request(functionId, {"version": 5, "channel": 1});
 }
 //使用道具卡API
 async function userMyCardForFarm(cardType) {
@@ -1155,8 +1187,8 @@ async function waterFriendForFarm(shareCode) {
 async function showMsg() {
   $.log(`\n${message}\n`);
   let ctrTemp;
-  if ($.isNode()) {
-    ctrTemp = `${notify.fruitNotifyControl}` === 'false' && `${jdNotify}` === 'false'
+  if ($.isNode() && process.env.FRUIT_NOTIFY_CONTROL) {
+    ctrTemp = `${process.env.FRUIT_NOTIFY_CONTROL}` === 'false';
   } else if ($.getdata('jdFruitNotify')) {
     ctrTemp = $.getdata('jdFruitNotify') === 'false';
   } else {

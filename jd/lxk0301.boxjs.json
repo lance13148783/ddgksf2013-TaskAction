@@ -32,6 +32,13 @@
           "desc": "运行东东农场脚本时不发出系统通知"
         },
         {
+          "id": "jdFruitBeanCard",
+          "name": "使用水滴换豆卡",
+          "val": false,
+          "type": "boolean",
+          "desc": "使用水滴换豆卡(如果出现限时活动是100g水换20豆,此时比浇水划算,推荐换豆)"
+        },
+        {
           "id": "jd_fruit_name",
           "name": "京东账号一昵称",
           "val": "",
@@ -328,14 +335,21 @@
         },
         {
           "id": "jdJoyHelpFeed",
-          "name": "是否给好友喂食",
+          "name": "是否给好友喂食(默认不帮好友喂食)",
           "val": false,
           "type": "boolean",
-          "desc": "默认不帮好友喂食（给好友喂食可得积分，但会消耗自己狗粮）"
+          "desc": "给好友喂食可得积分，但会消耗自己狗粮"
+        },
+        {
+          "id": "jdJoyStealCoin",
+          "name": "是否偷好友积分与狗粮(默认是)",
+          "val": true,
+          "type": "boolean",
+          "desc": "偷好友积分与狗粮"
         },
         {
           "id": "joyRunFlag",
-          "name": "参加双人赛跑(默认参加)",
+          "name": "是否参加双人赛跑(默认参加)",
           "val": true,
           "type": "boolean",
           "desc": "开启脚本将会为您自动参加双人赛跑"
@@ -614,6 +628,13 @@
           "desc": "小于对方300热力值自动更换商圈队伍"
         },
         {
+          "id": "jdSuperMarketLottery",
+          "name": "抽奖(招财进宝)",
+          "val": true,
+          "type": "boolean",
+          "desc": "运行脚本消耗金币进行抽奖，默认抽奖"
+        },
+        {
           "id": "jd_supermarket_name",
           "name": "京东账号一昵称",
           "val": "",
@@ -688,6 +709,13 @@
       "name": "京小超兑换奖品",
       "keys": [],
       "settings": [
+        {
+          "id": "jdSuperMarketRewardNotify",
+          "name": "静默运行",
+          "val": false,
+          "type": "boolean",
+          "desc": "开启后成功兑换到奖品不发出系统弹窗通知"
+        },
         {
           "id": "coinToBeans",
           "name": "兑换奖品（默认不兑换）",
