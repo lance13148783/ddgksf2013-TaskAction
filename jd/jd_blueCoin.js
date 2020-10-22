@@ -1,7 +1,7 @@
 /*
 京小超兑换奖品脚本
 感谢@yangtingxiao提供
-更新时间：2020-10-14
+更新时间：2020-10-21
 支持京东多个账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -32,6 +32,7 @@ if ($.isNode()) {
   cookiesArr.push($.getdata('CookieJD2'));
 }
 let UserName = '';
+const awardPrizeList = ['免洗凝胶', '酒精喷雾', '柠檬果香洗手液'];
 const JD_API_HOST = `https://api.m.jd.com/api?appid=jdsupermarket`;
 !(async () => {
   if (!cookiesArr[0]) {
@@ -191,6 +192,7 @@ function smtg_queryPrize(timeout = 0){
                 await smtg_obtainPrize(prizeList[1].prizeId);
               } else {
                 console.log(`兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`);
+                $.beanerr = `兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`;
               }
             } else if (coinToBeans > 0 && coinToBeans <= 20) {
               if (prizeList[0].beanType === 'Bean') {
@@ -216,12 +218,13 @@ function smtg_queryPrize(timeout = 0){
                 await smtg_obtainPrize(prizeList[0].prizeId,1000);
               } else {
                 console.log(`兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`);
+                $.beanerr = `兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`;
               }
             } else if (coinToBeans === 2801390972) {
               //兑换 巧白酒精喷雾
               let prizeId = '', i;
               for (let index = 0; index < prizeList.length; index ++) {
-                if (prizeList[index].title === '巧白酒精喷雾') {
+                if (prizeList[index].title === awardPrizeList[0]) {
                   prizeId = prizeList[index].prizeId;
                   i = index;
                   $.title = prizeList[index].title;
@@ -230,8 +233,8 @@ function smtg_queryPrize(timeout = 0){
               }
               if (prizeId) {
                 if (prizeList[i].inStock === 506) {
-                  console.log(`失败，巧白酒精喷雾领光了，请明天再来`);
-                  $.beanerr = `失败，巧白酒精喷雾领光了，请明天再来`;
+                  console.log(`失败，${awardPrizeList[0]}领光了，请明天再来`);
+                  $.beanerr = `失败，${awardPrizeList[0]}领光了，请明天再来`;
                   return ;
                 }
                 if (prizeList[i].targetNum === prizeList[i].finishNum) {
@@ -242,16 +245,17 @@ function smtg_queryPrize(timeout = 0){
                   await smtg_obtainPrize(prizeId);
                 } else {
                   console.log(`兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`);
+                  $.beanerr = `兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`;
                 }
               } else {
-                console.log(`奖品兑换列表[巧白酒精喷雾]已下架`);
-                $.beanerr = `奖品兑换列表[巧白酒精喷雾]已下架`;
+                console.log(`奖品兑换列表[${awardPrizeList[0]}]已下架`);
+                $.beanerr = `奖品兑换列表[${awardPrizeList[0]}]已下架`;
               }
             } else if (coinToBeans === 2801390982) {
               //兑换 巧白西柚洗手液
               let prizeId = '', i;
               for (let index = 0; index < prizeList.length; index ++) {
-                if (prizeList[index].title === '巧白西柚洗手液') {
+                if (prizeList[index].title === awardPrizeList[1]) {
                   prizeId = prizeList[index].prizeId;
                   i = index;
                   $.title = prizeList[index].title;
@@ -260,8 +264,8 @@ function smtg_queryPrize(timeout = 0){
               }
               if (prizeId) {
                 if (prizeList[i].inStock === 506) {
-                  console.log(`失败，巧白西柚洗手液领光了，请明天再来`);
-                  $.beanerr = `失败，巧白西柚洗手液领光了，请明天再来`;
+                  console.log(`失败，${awardPrizeList[1]}领光了，请明天再来`);
+                  $.beanerr = `失败，${awardPrizeList[1]}领光了，请明天再来`;
                   return ;
                 }
                 if (prizeList[i].targetNum === prizeList[i].finishNum) {
@@ -272,16 +276,17 @@ function smtg_queryPrize(timeout = 0){
                   await smtg_obtainPrize(prizeId);
                 } else {
                   console.log(`兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`);
+                  $.beanerr = `兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`;
                 }
               } else {
-                console.log(`奖品兑换列表[巧白西柚洗手液]已下架`);
-                $.beanerr = `奖品兑换列表[巧白西柚洗手液]已下架`;
+                console.log(`奖品兑换列表[${awardPrizeList[1]}]已下架`);
+                $.beanerr = `奖品兑换列表[${awardPrizeList[1]}]已下架`;
               }
             } else if (coinToBeans === 2801390984) {
               //兑换 雏菊洗衣凝珠
               let prizeId = '', i;
               for (let index = 0; index < prizeList.length; index ++) {
-                if (prizeList[index].title === '雏菊洗衣凝珠') {
+                if (prizeList[index].title === awardPrizeList[2]) {
                   prizeId = prizeList[index].prizeId;
                   i = index;
                   $.title = prizeList[index].title;
@@ -290,8 +295,8 @@ function smtg_queryPrize(timeout = 0){
               }
               if (prizeId) {
                 if (prizeList[i].inStock === 506) {
-                  console.log(`失败，雏菊洗衣凝珠领光了，请明天再来`);
-                  $.beanerr = `失败，雏菊洗衣凝珠领光了，请明天再来`;
+                  console.log(`失败，${awardPrizeList[2]}领光了，请明天再来`);
+                  $.beanerr = `失败，${awardPrizeList[2]}领光了，请明天再来`;
                   return ;
                 }
                 if (prizeList[i].targetNum === prizeList[i].finishNum) {
@@ -302,10 +307,11 @@ function smtg_queryPrize(timeout = 0){
                   await smtg_obtainPrize(prizeId);
                 } else {
                   console.log(`兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`);
+                  $.beanerr = `兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`;
                 }
               } else {
-                console.log(`奖品兑换列表[雏菊洗衣凝珠]已下架`);
-                $.beanerr = `奖品兑换列表[雏菊洗衣凝珠]已下架`;
+                console.log(`奖品兑换列表[${awardPrizeList[2]}]已下架`);
+                $.beanerr = `奖品兑换列表[${awardPrizeList[2]}]已下架`;
               }
             }
           }
@@ -420,6 +426,7 @@ async function msgShow() {
   } else {
     ctrTemp = `${jdNotify}` === 'false';
   }
+  //默认只在兑换奖品成功后弹窗提醒。情况情况加，只打印日志，不弹窗
   if ($.beanscount && ctrTemp) {
     $.msg($.name, ``, `【京东账号${$.index}】${UserName}\n${coinToBeans ? `【兑换${$.title}】${ $.beanscount ? `成功，数量：${$.beanscount}个` : $.beanerr}` : "您设置的是不兑换奖品"}`);
     if ($.isNode()) {
