@@ -46,37 +46,71 @@ if ($.isNode()) {
 const JD_API_HOST = 'https://rdcseason.m.jd.com/api/';
 const activeEndTime = '2020/11/13 01:00:00';
 const helpCode = [
-  '7241127f-3d25-4f91-84c8-cef41df9d6e0',
-  'bd6daf67-05b4-47b6-aac1-1eebe310ba03',
-  '02080bd6-8020-47fb-97e9-450f65125e49',
-  'c4d4c53a-b98d-4f4e-b4da-c6f2fdb98bee',
-  '90c554b5-d3de-4d44-ac2b-54f2084232f1',
-  '0cdb8d10-c078-4e45-b07a-79ab2198307c',
-  "424f2a0b-36c3-4294-b43f-a8ca412d59af",
-  "583be381-73e1-42fb-bc71-df8ed0a5af66",
-  "88c3b9d3-8ce4-4964-9db5-7e568c69f56a",
-  "0d8b611e-aa9b-4b02-9ee3-d7eba49ad395",
-  "3a0913a7-dcea-499a-afa7-f2f5e918f554",
-  "2ee164a6-e07e-4de0-9db6-95bb4d09e93a",
-  "2f53b734-165e-4c24-8d5c-5dda69e90e68",
-  "a92a9fdd-3a77-433c-a432-16f1ad3de8d1",
-  "618ca3c1-de34-4741-9f26-49150d893760",
-  "e079cd0f-3384-4ff7-a30f-7ecd5ba74284",
-  "4b10f1e6-67c8-4e39-b40d-4c7e2435292c",
-  "dcdfbe04-923e-4407-9798-b8b09407364d",
-  "447797f5-992a-4ed4-850e-d09453eed9e2",
-  "fd8bc651-dc0f-4010-8723-1003e5de7952",
-  "57c59c2f-ccf3-46d8-8530-2c4a92c015a7",
-  "024f3929-e4b9-4c22-8384-8a960f8969a6",
-  "859cae17-b406-467b-942f-090c6ee8e177",
-  "f7f1097e-55c5-41d7-9f7a-c8c395e27173",
-  "cd4a08c8-a6e0-4a06-bc76-0a88556b7ba0",
-  "419ebe4d-877d-413e-920e-781dd6e10fc6",
-  "9d98abd5-1b28-4a0d-b90c-35efa4ed5371",
-  "a378db72-9c76-4db7-bfd6-7fab26687342",
-  "8b80bf24-02c3-4645-b359-f6b799a14f85",
-  "ee713f9a-36ee-4b6a-9055-f9b497902e3f",
-  "e6c915ff-837f-4f75-9fe6-536b874ff07b",
+  'e6315530-dbdd-4d99-9f53-22682be605a9',
+  'a6c915ee-207e-4d2a-9b50-fabed4504834',
+  'a86a36af-5e10-46ac-9718-907e1bb3b0b7',
+  'ba7c27d9-fd8f-4fed-ac77-a8f4cb1b6b03',
+  'a308f016-48cb-4d68-8bb5-613d86616bf0',
+  'de76309f-a155-4b54-81fe-5b87c7eb250d',
+  "357a2f62-24eb-4a8c-a1bf-e15c99b9b12e",
+  "61952c20-666c-48f2-a612-5664e790a1f7",
+  "3a1762d9-00d6-48d2-a15e-260cfe00e9f3",
+  "2bd8141e-d5e6-469f-81e5-284b5702f475",
+  "09e58900-735b-4c24-bff1-74004cf34a64",
+  "9b67730d-6b89-4c2f-8f95-75723f4f75df",
+  "a1784daa-31e2-4fc2-83a1-766c66622c45",
+  "c87ac1ae-77df-4fa3-8895-db2f32fd7b1e",
+  "c6ff9bd3-296d-4bf9-8a5a-523cd72df6cb",
+  "49ee613c-8d20-40d3-9d05-a4a15a114cd1",
+  "dc6efa0a-cd35-4dd2-9ff9-b5d9bf0a15eb",
+  '9246acfc-03c2-44bd-8abe-516101e6b07c',
+  '29503370-fd3d-4f4b-bff3-483ac5e18447',
+  '5e199233-1348-4caf-b1ab-97b765830fcb',
+  'c2243e72-df24-4fff-8c66-a22af6756094',
+  '7f32cc29-ba75-48fa-8200-813596a6415b',
+  "693ff6f1-328d-491d-be77-d23b1205764c",
+  "dfdec19e-9b9e-44b2-a0e9-05d4840d462c",
+  "0a14dbfd-0325-4df5-ade5-7b7ed02e0e1a",
+  "2de96c3a-7429-4714-be44-dc194e05d580",
+  "c613b058-8a51-4ee2-adc6-f6cd2e8f4ccf",
+  "492e45b8-5043-42b8-a1ae-567d49b98f91",
+  "278cc6ce-8088-456d-ab5b-bbfea69e5215",
+  "1c5bb35b-2a73-45fb-baf7-2c4112b3988f",
+  "a6beb2f5-3f86-498d-a2f2-84cdb0de28e9",
+  "bcf839d2-154d-461a-acd6-ee6e97d5119b",
+  "d17dd145-db93-400e-9f7b-b8464bc37b65",
+  "8fc6ba5a-e4a4-447d-890b-b5a5ba592a03",
+  "d3ec3859-7999-4c88-89a8-844f14427f71",
+  "0fb7b9fc-c4ba-4408-a728-f8e98ef1bf9b",
+  "0b0bf805-f649-4dd7-a1f5-7a002ef49b37",
+  "c4797680-dd46-43f4-a244-6f57ac7d9e5c",
+  "567cce4f-f1d6-46d2-b7af-07ff50d0c8b5",
+  "75c0df29-1f2e-455c-b840-24e7ae538a7e",
+  "5c5bfbae-a746-47f2-926d-fdb0353e10cc",
+  "3d5dd26b-8369-42de-b123-fc74b91b8646",
+  "bb708470-aee0-41d8-a7b6-882d36488321",
+  "953b49d8-84ca-46fe-ac19-bd4ef4c1b8fa",
+  "0f352785-b882-4965-9101-9fe7b1094721",
+  "d33386cf-725e-4f50-b3bd-fcfd7d0707b1",
+  "c63cc46c-4d1a-4329-96c0-39ac2d0d75b1",
+  "468a627d-3c95-4440-971b-f73ec8926370",
+  "a075bafc-a949-438f-8f25-9f3536ea46a8",
+  "516821eb-ae6e-4db9-bd91-372b64e5c62a",
+  "e9bd0af5-0999-4048-9c0f-d4ec691dd338",
+  "c87d18db-daf3-4cf7-8fc7-fc73e88a282c",
+  "4ec73a82-1b7e-4167-988b-0087187d2fae",
+  "04604622-4e76-4656-90db-dcce078af27b",
+  "34742af8-4c19-43ef-a7fe-ec52e474ce18",
+  "70d5ff4d-79d5-43a2-9699-c9bde4358cfb",
+  "92588512-c581-4986-818f-4e3421e37666",
+  "a9b84832-1b52-4f3b-87e6-2c630662b7c4",
+  "5243f3c8-68c0-444b-a687-9be7dc89e887",
+  "6ada3d37-2af8-429f-be2a-34c2138c112e",
+  "613c69d9-bfb9-4b8b-ba7e-639fac347b16",
+  "600f8821-decd-4499-b689-3165b4835bbc",
+  "032cf534-2840-435b-94c3-cf2b7fb3c21b",
+  "c6ae55e9-8a18-4b41-ac7a-07c518c58601",
+  'a2caced1-8c0c-4b2d-b1d7-7fdb33edf384',
 ]
 !(async () => {
   if (!cookiesArr[0]) {
@@ -564,9 +598,12 @@ function saveJbean(id) {
 }
 async function doHelp() {
   for (let item of helpCode) {
-    const helpRes = await toHelp(item);
+    const helpRes = await toHelp(item.trim());
     if (helpRes.data.status === 5) {
       console.log(`助力机会已耗尽，跳出助力`);
+      break;
+    } else if (helpRes.data.status === 2) {
+      console.log(`助力机会失效，跳出`);
       break;
     }
   }
@@ -631,7 +668,7 @@ function getHelp() {
         } else {
           data = JSON.parse(data);
           if (data.code === 200) {
-            console.log(`\n您的助力码shareId(互助码每天都是变化的)\n${data.data.shareId}\n`);
+            console.log(`\n您的助力码shareId(互助码每天都是变化的)\n\n"${data.data.shareId}",\n`);
             $.temp.push(data.data.shareId);
           }
         }
@@ -755,10 +792,10 @@ function getListRank() {
     })
   })
 }
-function showMsg() {
+async function showMsg() {
   if (Date.now() > new Date(activeEndTime).getTime()) {
     $.msg($.name, '活动已结束', `该活动累计获得京豆：${$.jbeanCount}个\niOS用户请删除此脚本\ngithub action用户请删除.github/workflows/jd_818.yml文件\n如果帮助到您可以点下🌟STAR鼓励我一下,谢谢\n咱江湖再见\nhttps://github.com/lxk0301/scripts`, {"open-url": "https://github.com/lxk0301/scripts"});
-    if ($.isNode()) notify.sendNotify($.name + '活动已结束', `请删除此脚本\ngithub action用户请删除.github/workflows/jd_818.yml文件\n如果帮助到您可以点下🌟STAR鼓励我一下,谢谢\n咱江湖再见\n https://github.com/lxk0301/scripts`)
+    if ($.isNode()) await notify.sendNotify($.name + '活动已结束', `请删除此脚本\ngithub action用户请删除.github/workflows/jd_818.yml文件\n如果帮助到您可以点下🌟STAR鼓励我一下,谢谢\n咱江湖再见\n https://github.com/lxk0301/scripts`)
   } else {
     $.msg($.name, `京东账号${$.index} ${$.UserName}`, `${$.jbeanCount ? `${$.integer ? `今日获得积分：${$.integer}个\n` : ''}${$.num ? `今日排名：${$.num}\n` : ''}今日参数人数：${$.lasNum}人\n累计获得京豆：${$.jbeanCount}个🐶\n` : ''}${$.jbeanCount ? `累计获得积分：${$.integralCount}个\n` : ''}${$.jbeanNum ? `${$.date}日奖品：${$.jbeanNum}\n` : ''}具体详情点击弹窗跳转后即可查看`, {"open-url": "https://rdcseason.m.jd.com/#/hame"});
   }

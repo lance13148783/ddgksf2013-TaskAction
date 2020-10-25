@@ -9,7 +9,8 @@ on:
     - cron: '0 0,1,4,10,15,16 * * *'
   watch:
     types: started
-
+  repository_dispatch:
+    types: joy
 jobs:
   build:
 
@@ -31,7 +32,7 @@ jobs:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           JD_DEBUG: ${{ secrets.JD_DEBUG }}
           JOY_FEED_COUNT: ${{ secrets.JOY_FEED_COUNT }}
-          joyRunFlag: ${{ secrets.JOY_RUN_FLAG }}
+          JOY_RUN_FLAG: ${{ secrets.JOY_RUN_FLAG }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
           BARK_SOUND: ${{ secrets.BARK_SOUND }}
@@ -39,3 +40,4 @@ jobs:
           TG_USER_ID: ${{ secrets.TG_USER_ID }}
           DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN }}
           DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET }}
+          IGOT_PUSH_KEY: ${{ secrets.IGOT_PUSH_KEY }}

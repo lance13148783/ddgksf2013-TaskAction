@@ -45,12 +45,12 @@ jd_scripts:
     #京东种豆得豆
     - PLANT_BEAN_SHARECODES=""
     #京东农场
-    - FruitShareCodes=""
+    - FRUITSHARECODES=""
     #京东萌宠
-    - PetShareCodes=""
+    - PETSHARECODES=""
     - JOY_FEED_COUNT=""
     #京小超
-    - SuperMarketShareCodes=""
+    - SUPERMARKET_SHARECODES=""
     #兑换多少数量的京豆（1-20之间，或者1000），0默认兑换不兑换，如需兑换把0改成1-20之间的数字或者1000即可
     - MARKET_COIN_TO_BEANS=""
     #是否开启debug模式打印日志
@@ -92,7 +92,9 @@ jd_scripts:
  `docker-compose restart` 重启容器；  
  `docker-compose down` 停止并删除容器；  
  
-- 如果是群晖用户的话，直接调整`jd_scripts.syno.json`里面对应相关配置的值，然后导入即可
+- 如果是群晖用户，在docker注册表搜jd_scripts，双击下载映像。
+不需要docker-compose.yml，只需建个logs/目录，调整`jd_scripts.syno.json`里面对应的配置值，然后导入json配置新建容器。
+若要自定义my_crontab_list.sh，再建个my_crontab_list.sh文件，配置参考`jd_scripts.my_crontab_list.syno.json`。
 ![image](./info.png)
 ![image](./dir.png)
 ![image](./import.png)
